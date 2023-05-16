@@ -21,8 +21,9 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { Breadcrumb, SaveButton } from "@components";
+import { Breadcrumb, SaveButton, SaveButtonProps } from "@components";
 import { CreateProps } from "../types";
+import { RefinePageHeaderClassNames } from "@refinedev/ui-types";
 
 /**
  * `<Create>` provides us a layout to display the page.
@@ -33,7 +34,7 @@ import { CreateProps } from "../types";
 export const Create: React.FC<CreateProps> = ({
     title,
     children,
-    saveButtonProps,
+    saveButtonProps: saveButtonPropsFromProps,
     resource: resourceFromProps,
     isLoading = false,
     breadcrumb: breadcrumbFromProps,
@@ -68,12 +69,12 @@ export const Create: React.FC<CreateProps> = ({
             <Breadcrumb />
         );
 
-    const defaultFooterButtons = (
-        <SaveButton
-            {...(isLoading ? { disabled: true } : {})}
-            {...saveButtonProps}
-        />
-    );
+    const saveButtonProps: SaveButtonProps = {
+        ...(isLoading ? { disabled: true } : {}),
+        ...saveButtonPropsFromProps,
+    };
+
+    const defaultFooterButtons = <SaveButton {...saveButtonProps} />;
 
     return (
         <Card {...(wrapperProps ?? {})}>
@@ -82,7 +83,10 @@ export const Create: React.FC<CreateProps> = ({
                 sx={{ display: "flex", flexWrap: "wrap" }}
                 title={
                     title ?? (
-                        <Typography variant="h5">
+                        <Typography
+                            variant="h5"
+                            className={RefinePageHeaderClassNames.Title}
+                        >
                             {translate(
                                 `${resource?.name}.titles.create`,
                                 `Create ${userFriendlyResourceName(
@@ -147,6 +151,7 @@ export const Create: React.FC<CreateProps> = ({
                     ? typeof footerButtons === "function"
                         ? footerButtons({
                               defaultButtons: defaultFooterButtons,
+                              saveButtonProps,
                           })
                         : footerButtons
                     : defaultFooterButtons}
