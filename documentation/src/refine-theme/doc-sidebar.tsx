@@ -162,7 +162,7 @@ const SidebarCategory = ({
                 )}
             >
                 {renderItems({
-                    items: item.items,
+                    items: item?.items ?? [],
                     path: path,
                     line: !isHeader,
                     fromHeader: isHeader,
@@ -262,49 +262,51 @@ type RenderItemConfig = {
 };
 
 const renderItems = ({
-    items,
+    items = [],
     path,
     root,
     line,
     fromHeader,
 }: RenderItemConfig) => {
-    const hasCategory = items.some((item) => item.type === "category");
+    const hasCategory = items?.some((item) => item.type === "category");
     const isDashed = !root && hasCategory;
 
-    return items.map((item, index) => {
-        switch (item.type) {
-            case "category":
-                return (
-                    <SidebarCategory
-                        key={index}
-                        item={item}
-                        path={path}
-                        line={!!line}
-                    />
-                );
-            case "html":
-                return (
-                    <SidebarHtml
-                        key={index}
-                        item={item}
-                        path={path}
-                        line={!!line}
-                    />
-                );
-            case "link":
-                return (
-                    <SidebarLink
-                        key={index}
-                        item={item}
-                        path={path}
-                        dashed={isDashed}
-                        line={!!line}
-                    />
-                );
-            default:
-                return null;
-        }
-    });
+    return (
+        items?.map((item, index) => {
+            switch (item.type) {
+                case "category":
+                    return (
+                        <SidebarCategory
+                            key={index}
+                            item={item}
+                            path={path}
+                            line={!!line}
+                        />
+                    );
+                case "html":
+                    return (
+                        <SidebarHtml
+                            key={index}
+                            item={item}
+                            path={path}
+                            line={!!line}
+                        />
+                    );
+                case "link":
+                    return (
+                        <SidebarLink
+                            key={index}
+                            item={item}
+                            path={path}
+                            dashed={isDashed}
+                            line={!!line}
+                        />
+                    );
+                default:
+                    return null;
+            }
+        }) ?? []
+    );
 };
 
 export const DocSidebar = () => {
@@ -336,7 +338,7 @@ export const DocSidebar = () => {
                 )}
             >
                 {renderItems({
-                    items: sidebar.items,
+                    items: sidebar?.items,
                     path: pathname,
                     root: true,
                 })}
