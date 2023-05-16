@@ -32,6 +32,7 @@
     @apply prose-code:px-1.5 prose-code:pt-[3px] prose-code:pb-[4px] prose-code:text-xs prose-code:leading-6 prose-code:bg-gray-300 prose-code:bg-opacity-30 prose-code:rounded prose-code:font-mono prose-code:before:content-none prose-code:after:content-none;
     @apply prose-code:font-normal;
     @apply prose-code:decoration-clone;
+    @apply prose-code:border-none;
 }
 
 .refine-prose *:last-child:not(header h1) {
