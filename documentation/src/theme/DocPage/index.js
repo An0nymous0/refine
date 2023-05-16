@@ -62,7 +62,6 @@ export default function DocPage(props) {
             <DocPageMetadata {...props} />
             <HtmlClassNameProvider
                 className={clsx(
-                    // TODO: it should be removed from here
                     ThemeClassNames.wrapper.docsPages,
                     ThemeClassNames.page.docsDocPage,
                     props.versionMetadata.className,
